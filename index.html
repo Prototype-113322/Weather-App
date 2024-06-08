@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="flex-container">
+        <div class="card">
+            <div class="search">
+                <input type="text" placeholder="Enter City Name" spellcheck="false">
+                <button><img src="./weather-app-img/images/search.png"></button>
+            </div>
+            <!-- Weather -->
+            <div class="weather">
+                <!-- Rainy Weather -->
+                <img src="./weather-app-img/images/rain.png" class="weather-icon">
+                <h1 class="temp">22°c</h1>
+                <h2 class="city">Undefined</h2>
+            
+
+            <div class="details">
+                <!-- For flex -->
+
+                <!-- For Humidity -->
+
+                <div class="col">
+                    <img src="./weather-app-img/images/humidity.png">
+                    <!-- For extra invisible container -->
+                    <div class="text">
+                        <p class="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+
+                <!-- For Wind -->
+
+                <div class="col">
+                    <img src="./weather-app-img/images/wind.png" class="wind-margin">
+                    <!-- For extra invisible container -->
+                    <div  class="text">
+                        <p class="humidity wind">15 km/hr</p>
+                        <p>Wind Speed</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        </div>
+    </div>
+   
+
+
+    <script>
+        const apiKey = "e50c5cd2de5011629abb674d6e6fb99d";
+        const apiURL = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
+
+        const searchBox = document.querySelector(".search input");
+        const searchBtn = document.querySelector(".search button");
+        const weatherIcon = document.querySelector(".weather-icon");
+
+        async function checkWeather(city){
+            const response = await fetch(apiURL +city+`&appid=${apiKey}`);
+            var data = await response.json();
+
+            // Now we are selecting our html element with a help of dom to connect with api data
+
+                                  // Class //           // fetching data from api (Tree Structure)//
+            document.querySelector(".city").innerHTML = data.name;
+            document.querySelector(".temp").innerHTML = Math.round(data.main.temp) +"°c";
+            document.querySelector(".humidity").innerHTML = data.main.humidity+"%";
+            document.querySelector(".wind").innerHTML = data.wind.speed+" km/hr";
+
+            // Now we have to update weather images
+
+            if(data.weather[0].main=="Clouds"){    // weather[0] is a first data in a array and also main is in this array//
+                weatherIcon.src= "./weather-app-img/images/clouds.png";
+
+            }
+
+            else if(data.weather[0].main=="Clear"){    // weather[0] is a first data in a array and also main is in this array//
+                weatherIcon.src= "./weather-app-img/images/clear.png";
+
+            }
+
+            else if(data.weather[0].main=="Rain"){    // weather[0] is a first data in a array and also main is in this array//
+                weatherIcon.src= "./weather-app-img/images/rain.png";
+
+            }
+            else if(data.weather[0].main=="Drizzle"){    // weather[0] is a first data in a array and also main is in this array//
+                weatherIcon.src= "./weather-app-img/images/drizzle.png";
+
+            }
+            else if(data.weather[0].main=="Mist"){    // weather[0] is a first data in a array and also main is in this array//
+                weatherIcon.src= "./weather-app-img/images/mist.png";
+
+            }
+
+            else if(data.weather[0].main=="Snow"){    // weather[0] is a first data in a array and also main is in this array//
+                weatherIcon.src= "./weather-app-img/images/snow.png";
+
+            }
+
+            document.querySelector(".weather").style.display="block";
+
+            }
+
+        searchBtn.addEventListener("click", ()=>{
+            checkWeather(searchBox.value)
+        })
+
+        //https://api.openweathermap.org/data/2.5/weather?/* URL ENDS HERE */q=karachi &appid=&units=metric//
+    </script>
+</body>
+</html>
